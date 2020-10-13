@@ -1,8 +1,9 @@
 {
-  "name": "um-push",
+  "name": "pnsys",
   "version": "0.0.0",
   "main": "src",
   "private": true,
+  "description": "API for send push notifications",
   "scripts": {
     "start": "node .",
     "test": "jest",
