@@ -1,12 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
 const notificationSchema = new Schema({
-  sender: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true
+  message: {
+    type: String
   },
-  _os_notification_id: {
+  options: {
     type: String
   }
 }, {
@@ -22,8 +20,8 @@ notificationSchema.methods = {
     const view = {
       // simple view
       id: this.id,
-      sender: this.sender.view(full),
-      _os_notification_id: this._os_notification_id,
+      message: this.message,
+      options: this.options,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
