@@ -3,7 +3,7 @@ import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
 import notification from './notification'
-import provider from './provider'
+import app from './app'
 
 const router = new Router()
 
@@ -34,6 +34,6 @@ router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
 router.use('/notifications', notification)
-router.use('/provider', provider)
+router.use('/apps', app)
 
 export default router
