@@ -53,21 +53,6 @@ router.get('/',
  * @apiError 404 Notification not found.
  * @apiError 401 user access only.
  */
-router.get('/app',
-  token({ required: true }),
-  showApp)
-
-/**
- * @api {get} /notifications/:id Retrieve notification
- * @apiName RetrieveNotification
- * @apiGroup Notification
- * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiSuccess {Object} notification Notification's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Notification not found.
- * @apiError 401 user access only.
- */
 router.get('/:id',
   token({ required: true }),
   show)

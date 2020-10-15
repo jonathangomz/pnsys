@@ -23,12 +23,6 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const showApp = ({ params }, res, next) =>
-  OSClient.getApp()
-    .then(r => r.body)
-    .then(success(res, 200))
-    .catch(next)
-
 export const destroy = ({ user, params }, res, next) =>
   Notification.findById(params.id)
     .then(notFound(res))
