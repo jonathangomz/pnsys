@@ -1,4 +1,4 @@
-import OneSignal from '@jonathangomz/onesignal-um-client';
+import OneSignal from '@jonathangomz/onesignal-client';
 import { oneSignal } from "../../config";
 
 const OSClient = new OneSignal({
