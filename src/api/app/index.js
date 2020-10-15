@@ -79,7 +79,7 @@ router.get('/:id',
  */
 router.put('/:id',
   master(),
-  body({ provider, name, description, status, keys }),
+  body({ provider, name, description, status, keys: {} }),
   update)
 
 /**
