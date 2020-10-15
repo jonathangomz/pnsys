@@ -8,13 +8,13 @@ export const create = ({ bodymen: { body } }, res, next) =>
     .catch(next)
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  App.find(query, select, cursor)
+  App.find(query, { ...select, keys: 0 }, cursor)
     .then((apps) => apps.map((app) => app.view()))
     .then(success(res))
     .catch(next)
 
 export const show = ({ params }, res, next) =>
-  App.findById(params.id)
+  App.findById(params.id, { keys: 0 })
     .then(notFound(res))
     .then((app) => app ? app.view() : null)
     .then(success(res))
