@@ -12,8 +12,8 @@ const { provider, name, description, status, keys } = schema.tree
  * @api {post} /apps Create app
  * @apiName CreateApp
  * @apiGroup App
- * @apiPermission master
- * @apiParam {String} access_token master access token.
+ * @apiPermission admin
+ * @apiParam {String} access_token admin access token.
  * @apiParam provider App's provider.
  * @apiParam name App's name.
  * @apiParam description App's description.
@@ -25,7 +25,7 @@ const { provider, name, description, status, keys } = schema.tree
  * @apiError 401 master access only.
  */
 router.post('/',
-  master(),
+  token({ required: true, roles: ['admin'] }),
   body({ provider, name, description, status, keys: {} }),
   create)
 
@@ -64,8 +64,8 @@ router.get('/:id',
  * @api {put} /apps/:id Update app
  * @apiName UpdateApp
  * @apiGroup App
- * @apiPermission master
- * @apiParam {String} access_token master access token.
+ * @apiPermission admin
+ * @apiParam {String} access_token admin access token.
  * @apiParam provider App's provider.
  * @apiParam name App's name.
  * @apiParam description App's description.
@@ -77,7 +77,7 @@ router.get('/:id',
  * @apiError 401 master access only.
  */
 router.put('/:id',
-  master(),
+  token({ required: true, roles: ['admin'] }),
   body({ provider, name, description, status, keys: {} }),
   update)
 
@@ -85,14 +85,14 @@ router.put('/:id',
  * @api {delete} /apps/:id Delete app
  * @apiName DeleteApp
  * @apiGroup App
- * @apiPermission master
- * @apiParam {String} access_token master access token.
+ * @apiPermission admin
+ * @apiParam {String} access_token admin access token.
  * @apiSuccess (Success 204) 204 No Content.
  * @apiError 404 App not found.
  * @apiError 401 master access only.
  */
 router.delete('/:id',
-  master(),
+  token({ required: true, roles: ['admin'] }),
   destroy)
 
 export { App, schema }
