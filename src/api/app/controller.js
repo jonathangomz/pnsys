@@ -1,8 +1,8 @@
 import { success, notFound } from '../../services/response/'
 import { App } from '.'
 
-export const create = ({ bodymen: { body } }, res, next) =>
-  App.create(body)
+export const create = ({ bodymen: { body }, user }, res, next) =>
+  App.create({ ...body, createdBy: user._id})
     .then((app) => app.view(true))
     .then(success(res, 201))
     .catch(next)
@@ -20,10 +20,10 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const update = ({ bodymen: { body }, params }, res, next) =>
+export const update = ({ bodymen: { body }, params, user }, res, next) =>
   App.findById(params.id)
     .then(notFound(res))
-    .then((app) => app ? Object.assign(app, body).save() : null)
+    .then((app) => app ? Object.assign(app, { ...body, lastUpdateBy: user._id }).save() : null)
     .then((app) => app ? app.view(true) : null)
     .then(success(res))
     .catch(next)

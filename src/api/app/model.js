@@ -1,12 +1,6 @@
 import clientFactory from "../../services/pushnotifications";
 import mongoose, { Schema } from 'mongoose'
 
-const keys = {
-  appId: String,
-  authKey: String,
-  restApiKey: String,
-}
-
 const appSchema = new Schema({
   provider: {
     type: String,
@@ -31,6 +25,15 @@ const appSchema = new Schema({
     type: Map,
     of: String,
     required: true,
+  },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  lastUpdateBy: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
   }
 }, {
   timestamps: true,
@@ -68,6 +71,8 @@ appSchema.methods = {
     return full ? {
       ...view,
       keys: this.keys,
+      createdBy: this.createdBy,
+      lastUpdateBy: this.lastUpdateBy,
     } : view
   },
   async isValid () {
