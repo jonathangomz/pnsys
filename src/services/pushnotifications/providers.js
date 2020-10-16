@@ -1,4 +1,4 @@
-const initOneSignalClient = (keys) => {
+export const initOneSignalClient = (keys) => {
   const OneSignal = require('@jonathangomz/onesignal-client');
   
   const client = new OneSignal({
@@ -8,8 +8,4 @@ const initOneSignalClient = (keys) => {
   });
 
   return client;
-}
-
-export {
-  initOneSignalClient,
 }
