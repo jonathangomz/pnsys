@@ -3,8 +3,7 @@ import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
 import { create, index, show, update, destroy } from './controller'
-import { schema } from './model'
-export Notification, { schema } from './model'
+import Notification, { schema } from './model'
 
 const router = new Router({mergeParams: true})
 const { message, options } = schema.tree
@@ -90,4 +89,5 @@ router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
   destroy)
 
+export { Notification, schema }
 export default router

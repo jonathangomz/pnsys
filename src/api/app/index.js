@@ -3,8 +3,7 @@ import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { master, token } from '../../services/passport'
 import { create, index, show, update, destroy } from './controller'
-import { schema } from './model'
-export App, { schema } from './model'
+import App, { schema } from './model'
 
 const router = new Router()
 const { provider, name, description, status, keys } = schema.tree
@@ -96,4 +95,5 @@ router.delete('/:id',
   master(),
   destroy)
 
+export { App, schema }
 export default router
