@@ -1,6 +1,6 @@
 import { initOneSignalClient } from "./providers";
 
-const clientFactory = (provider, keys) => {
+const clientFactory = ({provider, keys}) => {
   switch (provider) {
     case 'os':
       return initOneSignalClient(keys);

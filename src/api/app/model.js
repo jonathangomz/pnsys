@@ -73,12 +73,15 @@ appSchema.methods = {
   },
   async validateApp () {
     try {
-      const client = clientFactory(this.provider, this.keys);
+      const client = clientFactory(this);
       const app_info = await client.viewApp();
       return app_info.id ? true : false;
     } catch (error) {
       return false;
     }
+  },
+  getClient() {
+    return clientFactory(this);
   }
 }
 
