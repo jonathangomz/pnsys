@@ -6,7 +6,7 @@ import { create, index, show, update, destroy } from './controller'
 import { schema } from './model'
 export Notification, { schema } from './model'
 
-const router = new Router()
+const router = new Router({mergeParams: true})
 const { message, options } = schema.tree
 
 /**

@@ -1,17 +1,17 @@
 import { success, notFound } from '../../services/response/'
 import { Notification } from '.'
 
-export const create = ({ bodymen: { body } }, res, next) =>
-  Notification.create(body)
-    .then((notification) => notification.view(true))
-    .then(success(res, 201))
-    .catch(next)
+export const create = ({ bodymen: { body }, params: { appId } }, res, next) =>
+  Notification.create({ ...body, appId })
+  .then((notification) => notification.view(true))
+  .then(success(res, 201))
+  .catch(next)
 
-export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  Notification.find(query, select, cursor)
-    .then((notifications) => notifications.map((notification) => notification.view()))
-    .then(success(res))
-    .catch(next)
+export const index = ({ querymen: { query, select, cursor }, params: { appId } }, res, next) =>
+  Notification.find({...query, appId}, select, cursor)
+  .then((notifications) => notifications.map((notification) => notification.view()))
+  .then(success(res))
+  .catch(next)
 
 export const show = ({ params }, res, next) =>
   Notification.findById(params.id)

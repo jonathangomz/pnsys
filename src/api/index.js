@@ -35,6 +35,6 @@ router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
 router.use('/notifications', notification)
 router.use('/apps', app)
-router.use('/notifications', notification)
+router.use('/:appId/notifications', notification)
 
 export default router
