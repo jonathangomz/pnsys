@@ -10,6 +10,7 @@ const keys = {
 const appSchema = new Schema({
   provider: {
     type: String,
+    enum: ['os'],
     lowercase: true,
     required: true,
   },
@@ -23,6 +24,7 @@ const appSchema = new Schema({
   status: {
     type: String,
     lowercase: true,
+    enum: ['inactive', 'active'],
     default: 'inactive',
   },
   keys: {
