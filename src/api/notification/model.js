@@ -1,9 +1,24 @@
 import mongoose, { Schema } from 'mongoose'
 
-const notificationSchema = new Schema({
-  message: {
-    type: String
+const messageSchema = new Schema({
+  lang: {
+    type: String,
+    enum: ['en', 'es'],
+    required: true,
   },
+  text: {
+    type: String,
+    required: true,
+  }
+}, { _id: false })
+
+const notificationSchema = new Schema({
+  appId: {
+    type: Schema.Types.ObjectId,
+    ref: 'App',
+    required: true,
+  },
+  message: messageSchema,
   options: {
     type: String
   }
@@ -20,6 +35,7 @@ notificationSchema.methods = {
     const view = {
       // simple view
       id: this.id,
+      appId: this.appId,
       message: this.message,
       options: this.options,
       createdAt: this.createdAt,
