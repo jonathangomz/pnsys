@@ -49,8 +49,6 @@ appSchema.pre('save', function(next) {
         next(new Error('Invalid keys'));
       }
       break;
-    default:
-      next(new Error('Invalid provider'));
   }
 });
 
@@ -63,27 +61,33 @@ appSchema.methods = {
       name: this.name,
       description: this.description,
       status: this.status,
-      keys: this.keys,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
 
     return full ? {
-      ...view
-      // add properties for a full view
+      ...view,
+      keys: this.keys,
     } : view
   },
-  async validateApp () {
+  async isValid () {
     try {
       const client = clientFactory(this);
-      const app_info = await client.viewApp();
-      return app_info.id ? true : false;
+      const is_valid = await client.isValid();
+      return is_valid;
     } catch (error) {
       return false;
     }
   },
   getClient() {
-    return clientFactory(this);
+    const keys = {
+      appId: this.keys.get('appId'),
+      authKey: this.keys.get('authKey'),
+      restApiKey: this.keys.get('restApiKey')
+    }
+
+    if(this.isValid())
+      return clientFactory({provider: this.provider, keys});
   }
 }
 
