@@ -1,12 +1,11 @@
 import mongoose, { Schema } from 'mongoose'
 
 const messageSchema = new Schema({
-  lang: {
+  en: {
     type: String,
-    enum: ['en', 'es'],
     required: true,
   },
-  text: {
+  es: {
     type: String,
     required: true,
   }
@@ -18,9 +17,13 @@ const notificationSchema = new Schema({
     ref: 'App',
     required: true,
   },
-  message: messageSchema,
+  message: [messageSchema],
   options: {
-    type: String
+    type: Schema.Types.Mixed,
+  },
+  response: {
+    type: Schema.Types.Mixed,
+    required: true,
   }
 }, {
   timestamps: true,
@@ -43,8 +46,8 @@ notificationSchema.methods = {
     }
 
     return full ? {
-      ...view
-      // add properties for a full view
+      ...view,
+      response: this.response,
     } : view
   }
 }
