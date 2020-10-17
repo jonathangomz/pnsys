@@ -1,11 +1,33 @@
+import clientFactory from "../../services/pushnotifications";
 import { success, notFound } from '../../services/response/'
 import { Notification } from '.'
+import { App } from "../app";
 
-export const create = ({ bodymen: { body }, params: { appId } }, res, next) =>
-  Notification.create({ ...body, appId })
-  .then((notification) => notification.view(true))
-  .then(success(res, 201))
-  .catch(next)
+export const create = ({ bodymen: { body: { message, options } }, params: { appId } }, res, next) =>
+  App.findById(appId)
+    .then(notFound(res))
+    .then(async (app) => {
+      const isvalid = await app.isValid();
+      if(isvalid)
+        return app.getClient()
+      else
+        res.status(400).json({
+          message: 'Invalid app'
+        })
+    })
+    .then(async (client) => await client.sendNotification(message, {included_segments: [ 'Test' ], ...options}))
+    .then(({ status, error, body: res_notification }) => {
+      if(!error)
+        return res_notification
+      else
+        res.status(status).json(res_notification)
+    })
+    .then(async (res_notification) => {
+      const saved = await Notification.create({ message, options, appId, response: res_notification })
+      return saved.view(true)
+    })
+    .then(success(res, 201))
+    .catch(next)
 
 export const index = ({ querymen: { query, select, cursor }, params: { appId } }, res, next) =>
   Notification.find({...query, appId}, select, cursor)
