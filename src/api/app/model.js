@@ -85,14 +85,7 @@ appSchema.methods = {
     }
   },
   getClient() {
-    const keys = {
-      appId: this.keys.get('appId'),
-      authKey: this.keys.get('authKey'),
-      restApiKey: this.keys.get('restApiKey')
-    }
-
-    if(this.isValid())
-      return clientFactory({provider: this.provider, keys});
+    return clientFactory({ provider: this.provider, keys: this.keys });
   }
 }
 

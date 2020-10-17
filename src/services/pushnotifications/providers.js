@@ -2,9 +2,9 @@ export const initOneSignalClient = (keys) => {
   const OneSignal = require('@jonathangomz/onesignal-client');
   
   const client = new OneSignal({
-    authKey: keys.authKey,
-    restApiKey: keys.restApiKey,
-    appId: keys.appId,
+    authKey: keys.get('authKey'),
+    restApiKey: keys.get('restApiKey'),
+    appId: keys.get('appId'),
   });
 
   return client;
