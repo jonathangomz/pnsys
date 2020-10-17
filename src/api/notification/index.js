@@ -23,7 +23,7 @@ const { message, options } = schema.tree
  */
 router.post('/',
   token({ required: true }),
-  body({ message, options }),
+  body({ message, options: {} }),
   create)
 
 /**
