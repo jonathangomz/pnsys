@@ -15,7 +15,7 @@ export const create = ({ bodymen: { body: { message, options } }, params: { appI
           message: 'Invalid app'
         })
     })
-    .then(async (client) => await client.sendNotification(message, {included_segments: [ 'Test' ], ...options}))
+    .then(async (client) => await client.sendNotification(message, options))
     .then(({ status, error, body: res_notification }) => {
       if(!error)
         return res_notification
