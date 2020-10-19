@@ -33,8 +33,7 @@ const router = new Router()
 router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
-router.use('/notifications', notification)
 router.use('/apps', app)
-router.use('/:appId/notifications', notification)
+router.use('/notifications', notification)
 
 export default router
