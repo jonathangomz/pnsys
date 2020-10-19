@@ -13,10 +13,19 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const show = ({ params }, res, next) =>
-  App.findById(params.id, { keys: 0 })
+export const show = ({ params, query: { provider } }, res, next) =>
+  App.findById(params.id)
     .then(notFound(res))
-    .then((app) => app ? app.view() : null)
+    .then(async (app) => {
+      if(app) {
+        const view = app.view(true)
+        if(provider === 'true') {
+          const onProvider = await app.getClient().getApp()
+          view.onProvider = onProvider.body
+        }
+        return view;
+      }else return null
+    })
     .then(success(res))
     .catch(next)
 
