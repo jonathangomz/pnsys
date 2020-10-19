@@ -1,14 +1,32 @@
 import mongoose, { Schema } from 'mongoose'
 
-const notificationSchema = new Schema({
-  sender: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true
+const messageSchema = new Schema({
+  en: {
+    type: String,
+    required: true,
   },
-  _os_notification_id: {
-    type: String
+  es: {
+    type: String,
+    required: true,
   }
+}, { _id: false })
+
+const notificationSchema = new Schema({
+  _id: String,
+  appId: {
+    type: Schema.Types.ObjectId,
+    ref: 'App',
+    required: true,
+  },
+  message: [messageSchema],
+  options: {
+    type: Schema.Types.Mixed,
+  },
+  response: {
+    type: Schema.Types.Mixed,
+    required: true,
+  },
+  canceled: Boolean
 }, {
   timestamps: true,
   toJSON: {
@@ -21,18 +39,29 @@ notificationSchema.methods = {
   view (full) {
     const view = {
       // simple view
-      id: this.id,
-      sender: this.sender.view(full),
-      _os_notification_id: this._os_notification_id,
+      _id: this.id,
+      appId: this.appId,
+      message: this.message,
+      options: this.options,
+      canceled: this.canceled,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
 
     return full ? {
-      ...view
-      // add properties for a full view
+      ...view,
+      response: this.response,
     } : view
   }
+}
+
+notificationSchema.statics.extractId = function(response) {
+  if(response.id)
+    return response.id
+  if(response.notificationId)
+    return response.notificationId
+  else
+    throw new Error('No id for document')
 }
 
 const model = mongoose.model('Notification', notificationSchema)

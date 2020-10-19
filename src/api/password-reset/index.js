@@ -2,11 +2,11 @@ import { Router } from 'express'
 import { middleware as body } from 'bodymen'
 import { master } from '../../services/passport'
 import { create, show, update } from './controller'
-import { schema } from '../user'
-export PasswordReset, { schema } from './model'
+import { schema as userSchema } from '../user'
+import PasswordReset, { schema } from './model'
 
 const router = new Router()
-const { email, password } = schema.tree
+const { email, password } = userSchema.tree
 
 /**
  * @api {post} /password-resets Send email
@@ -47,4 +47,5 @@ router.put('/:token',
   body({ password }),
   update)
 
+export { PasswordReset, schema }
 export default router

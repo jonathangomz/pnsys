@@ -24,3 +24,13 @@ export const authorOrAdmin = (res, user, userField) => (entity) => {
   }
   return null
 }
+
+export const invalidApp = (res) => async (app) => {
+  const isvalid = await app.isValid();
+  if(isvalid) {
+    return app.getClient();
+  }
+  res.status(400).json({
+    message: 'Invalid app. Verify your keys or appId'
+  })
+}

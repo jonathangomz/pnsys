@@ -2,8 +2,8 @@ import { Router } from 'express'
 import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
+import app from './app'
 import notification from './notification'
-import provider from './provider'
 
 const router = new Router()
 
@@ -33,7 +33,7 @@ const router = new Router()
 router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
+router.use('/apps', app)
 router.use('/notifications', notification)
-router.use('/provider', provider)
 
 export default router

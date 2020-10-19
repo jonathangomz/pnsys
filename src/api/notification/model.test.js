@@ -1,11 +1,9 @@
 import { Notification } from '.'
-import { User } from '../user'
 
-let user, notification
+let notification
 
 beforeEach(async () => {
-  user = await User.create({ email: 'a@a.com', password: '123456' })
-  notification = await Notification.create({ sender: user, _os_notification_id: 'test' })
+  notification = await Notification.create({ message: 'test', options: 'test' })
 })
 
 describe('view', () => {
@@ -13,9 +11,8 @@ describe('view', () => {
     const view = notification.view()
     expect(typeof view).toBe('object')
     expect(view.id).toBe(notification.id)
-    expect(typeof view.sender).toBe('object')
-    expect(view.sender.id).toBe(user.id)
-    expect(view._os_notification_id).toBe(notification._os_notification_id)
+    expect(view.message).toBe(notification.message)
+    expect(view.options).toBe(notification.options)
     expect(view.createdAt).toBeTruthy()
     expect(view.updatedAt).toBeTruthy()
   })
@@ -24,9 +21,8 @@ describe('view', () => {
     const view = notification.view(true)
     expect(typeof view).toBe('object')
     expect(view.id).toBe(notification.id)
-    expect(typeof view.sender).toBe('object')
-    expect(view.sender.id).toBe(user.id)
-    expect(view._os_notification_id).toBe(notification._os_notification_id)
+    expect(view.message).toBe(notification.message)
+    expect(view.options).toBe(notification.options)
     expect(view.createdAt).toBeTruthy()
     expect(view.updatedAt).toBeTruthy()
   })
