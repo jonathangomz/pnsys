@@ -6,7 +6,7 @@ import { create, index, show, update, destroy } from './controller'
 import Notification, { schema } from './model'
 
 const router = new Router({mergeParams: true})
-const { message, options } = schema.tree
+const { appId, message, options } = schema.tree
 
 /**
  * @api {post} /notifications Create notification
@@ -23,7 +23,7 @@ const { message, options } = schema.tree
  */
 router.post('/',
   token({ required: true }),
-  body({ message, options: {} }),
+  body({ appId, message, options: {} }),
   create)
 
 /**
@@ -39,7 +39,7 @@ router.post('/',
  */
 router.get('/',
   token({ required: true }),
-  query(),
+  query({ appId: String }),
   index)
 
 /**
