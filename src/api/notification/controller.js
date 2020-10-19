@@ -52,5 +52,6 @@ export const cancel = ({ params }, res, next) =>
     .then(async (notification) => notification ? await App.findById(notification.appId) : null)
     .then(async (app) => await invalidApp(res)(app))
     .then(async (client) => await client.cancelNotification(params.id))
+    .then((r) => r.body.success ? Notification.findByIdAndUpdate(params.id, { canceled : true }) : null)
     .then(success(res, 204))
     .catch(next)

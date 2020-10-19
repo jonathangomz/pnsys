@@ -25,7 +25,8 @@ const notificationSchema = new Schema({
   response: {
     type: Schema.Types.Mixed,
     required: true,
-  }
+  },
+  canceled: Boolean
 }, {
   timestamps: true,
   toJSON: {
@@ -42,7 +43,7 @@ notificationSchema.methods = {
       appId: this.appId,
       message: this.message,
       options: this.options,
-      response: this.response,
+      canceled: this.canceled,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
