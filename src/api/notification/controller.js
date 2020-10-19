@@ -46,9 +46,11 @@ export const update = ({ bodymen: { body }, params }, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const destroy = ({ params }, res, next) =>
+export const cancel = ({ params }, res, next) =>
   Notification.findById(params.id)
     .then(notFound(res))
-    .then((notification) => notification ? notification.remove() : null)
+    .then(async (notification) => notification ? await App.findById(notification.appId) : null)
+    .then(async (app) => await invalidApp(res)(app))
+    .then(async (client) => await client.cancelNotification(params.id))
     .then(success(res, 204))
     .catch(next)

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, update, cancel } from './controller'
 import Notification, { schema } from './model'
 
 const router = new Router({mergeParams: true})
@@ -85,9 +85,9 @@ router.put('/:id',
  * @apiError 404 Notification not found.
  * @apiError 401 admin access only.
  */
-router.delete('/:id',
-  token({ required: true, roles: ['admin'] }),
-  destroy)
+router.put('/:id/cancel',
+  token({ required: true }),
+  cancel)
 
 export { Notification, schema }
 export default router

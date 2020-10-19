@@ -12,13 +12,10 @@ const messageSchema = new Schema({
 }, { _id: false })
 
 const notificationSchema = new Schema({
+  _id: String,
   appId: {
     type: Schema.Types.ObjectId,
     ref: 'App',
-    required: true,
-  },
-  notificationId: {
-    type: String,
     required: true,
   },
   message: [messageSchema],
@@ -43,7 +40,6 @@ notificationSchema.methods = {
       // simple view
       _id: this.id,
       appId: this.appId,
-      notifcationId: this.notificationId,
       message: this.message,
       options: this.options,
       response: this.response,
@@ -53,6 +49,7 @@ notificationSchema.methods = {
 
     return full ? {
       ...view,
+      response: this.response,
     } : view
   }
 }
