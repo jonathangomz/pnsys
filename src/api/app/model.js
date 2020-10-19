@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose'
 const appSchema = new Schema({
   provider: {
     type: String,
-    enum: ['os'],
+    enum: ['os', 'wp'],
     lowercase: true,
     required: true,
   },
@@ -59,7 +59,7 @@ appSchema.methods = {
   view (full) {
     const view = {
       // simple view
-      id: this.id,
+      _id: this.id,
       provider: this.provider,
       name: this.name,
       description: this.description,
