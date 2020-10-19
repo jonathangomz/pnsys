@@ -17,6 +17,10 @@ const notificationSchema = new Schema({
     ref: 'App',
     required: true,
   },
+  notificationId: {
+    type: String,
+    required: true,
+  },
   message: [messageSchema],
   options: {
     type: Schema.Types.Mixed,
@@ -37,17 +41,18 @@ notificationSchema.methods = {
   view (full) {
     const view = {
       // simple view
-      id: this.id,
+      _id: this.id,
       appId: this.appId,
+      notifcationId: this.notificationId,
       message: this.message,
       options: this.options,
+      response: this.response,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
 
     return full ? {
       ...view,
-      response: this.response,
     } : view
   }
 }
