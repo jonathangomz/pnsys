@@ -25,8 +25,8 @@ export const create = ({ bodymen: { body: { appId, message, options } } }, res, 
     .then(success(res, 201))
     .catch(next)
 
-export const index = ({ querymen: { query, select, cursor }, params: { appId } }, res, next) =>
-  Notification.find({...query, appId}, select, cursor)
+export const index = ({ querymen: { query, select, cursor }}, res, next) =>
+  Notification.find(query, select, cursor)
   .then((notifications) => notifications.map((notification) => notification.view()))
   .then(success(res))
   .catch(next)
