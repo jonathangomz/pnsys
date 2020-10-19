@@ -1,20 +1,12 @@
 import clientFactory from "../../services/pushnotifications";
-import { success, notFound } from '../../services/response/'
+import { success, notFound, invalidApp } from '../../services/response/'
 import { Notification } from '.'
 import { App } from "../app";
 
-export const create = ({ bodymen: { body: { message, options } }, params: { appId } }, res, next) =>
+export const create = ({ bodymen: { body: { appId, message, options } } }, res, next) =>
   App.findById(appId)
     .then(notFound(res))
-    .then(async (app) => {
-      const isvalid = await app.isValid();
-      if(isvalid)
-        return app.getClient()
-      else
-        res.status(400).json({
-          message: 'Invalid app'
-        })
-    })
+    .then(async (app) => await invalidApp(res)(app))
     .then(async (client) => await client.sendNotification(message, options))
     .then(({ status, error, body: res_notification }) => {
       if(!error)
@@ -22,10 +14,14 @@ export const create = ({ bodymen: { body: { message, options } }, params: { appI
       else
         res.status(status).json(res_notification)
     })
-    .then(async (res_notification) => {
-      const saved = await Notification.create({ message, options, appId, response: res_notification })
-      return saved.view(true)
-    })
+    .then(async (res_notification) => await Notification.create({
+      notificationId: res_notification.id,
+      message,
+      options,
+      appId,
+      response: res_notification
+    }))
+    .then((notification) => notification.view(true))
     .then(success(res, 201))
     .catch(next)
 
