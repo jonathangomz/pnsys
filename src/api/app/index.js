@@ -78,7 +78,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ provider, name, description, status, keys: {} }),
+  body({ name, description, status, keys: {} }),
   update)
 
 /**
