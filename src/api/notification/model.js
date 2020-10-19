@@ -55,6 +55,15 @@ notificationSchema.methods = {
   }
 }
 
+notificationSchema.statics.extractId = function(response) {
+  if(response.id)
+    return response.id
+  if(response.notificationId)
+    return response.notificationId
+  else
+    throw new Error('No id for document')
+}
+
 const model = mongoose.model('Notification', notificationSchema)
 
 export const schema = model.schema
