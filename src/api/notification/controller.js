@@ -45,10 +45,3 @@ export const update = ({ bodymen: { body }, params }, res, next) =>
     .then((notification) => notification ? notification.view(true) : null)
     .then(success(res))
     .catch(next)
-
-export const destroy = ({ params }, res, next) =>
-  Notification.findById(params.id)
-    .then(notFound(res))
-    .then((notification) => notification ? notification.remove() : null)
-    .then(success(res, 204))
-    .catch(next)
