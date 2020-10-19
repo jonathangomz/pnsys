@@ -78,8 +78,7 @@ appSchema.methods = {
   async isValid () {
     try {
       const client = clientFactory(this);
-      const is_valid = await client.isValid();
-      return is_valid;
+      return await client.isValid();
     } catch (error) {
       return false;
     }
