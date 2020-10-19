@@ -15,7 +15,7 @@ export const create = ({ bodymen: { body: { appId, message, options } } }, res, 
         res.status(status).json(res_notification)
     })
     .then(async (res_notification) => await Notification.create({
-      notificationId: res_notification.id,
+      _id: res_notification.id,
       message,
       options,
       appId,
