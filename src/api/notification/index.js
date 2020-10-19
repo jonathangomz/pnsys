@@ -72,7 +72,22 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true }),
+  body({ message, options }),
   update)
+
+/**
+ * @api {delete} /notifications/:id Delete notification
+ * @apiName DeleteNotification
+ * @apiGroup Notification
+ * @apiPermission admin
+ * @apiParam {String} access_token admin access token.
+ * @apiSuccess (Success 204) 204 No Content.
+ * @apiError 404 Notification not found.
+ * @apiError 401 admin access only.
+ */
+router.delete('/:id',
+  token({ required: true, roles: ['admin'] }),
+  destroy)
 
 export { Notification, schema }
 export default router
