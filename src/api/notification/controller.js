@@ -1,4 +1,3 @@
-import clientFactory from "../../services/pushnotifications";
 import { success, notFound, invalidApp } from '../../services/response/'
 import { Notification } from '.'
 import { App } from "../app";
