@@ -1,11 +1,9 @@
 import { success, notFound, invalidApp } from '../../services/response/'
+import { getPushClient } from "../../services/pushnotifications";
 import { Notification } from '.'
-import { App } from "../app";
 
-export const create = ({ bodymen: { body: { appId, message, options } } }, res, next) =>
-  App.findById(appId)
-    .then(notFound(res))
-    .then(async (app) => await invalidApp(res)(app))
+export const create = ({ bodymen: { body: { message, options } } }, res, next) =>
+  invalidApp(res)(getPushClient())
     .then(async (client) => await client.sendNotification(message, options))
     .then(({ status, error, body }) => {
       if(error || body.errors)
@@ -16,7 +14,6 @@ export const create = ({ bodymen: { body: { appId, message, options } } }, res, 
       _id: Notification.extractId(res_notification),
       message,
       options,
-      appId,
       response: res_notification
     }))
     .then((notification) => notification.view(true))
@@ -45,10 +42,7 @@ export const update = ({ bodymen: { body }, params }, res, next) =>
     .catch(next)
 
 export const cancel = ({ params }, res, next) =>
-  Notification.findById(params.id)
-    .then(notFound(res))
-    .then(async (notification) => notification ? await App.findById(notification.appId) : null)
-    .then(async (app) => await invalidApp(res)(app))
+  invalidApp(res)(getPushClient())
     .then(async (client) => await client.cancelNotification(params.id))
     .then((r) => r.body.success ? Notification.findByIdAndUpdate(params.id, { canceled : true }) : null)
     .then(success(res, 204))

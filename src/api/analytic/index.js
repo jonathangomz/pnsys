@@ -1,28 +1,22 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from "bodymen"
-import { token } from '../../services/passport'
 import { create, index, show } from './controller'
 import { schema } from "../notification";
 
 const router = new Router()
-const { _id: notificationId, appId } = schema.tree;
+const { _id: notificationId } = schema.tree;
 
 /**
- * @api {post} /analytics Create analytic
- * @apiName CreateAnalytic
+ * @api {post} /analytics Register a new user event
+ * @apiName RegisterEvent
  * @apiGroup Analytic
- * @apiPermission admin
- * @apiParam {String} access_token admin access token.
- * @apiSuccess {Object} analytic Analytic's data.
+ * @apiSuccess {Object} userList User registers on that event.
  * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Analytic not found.
- * @apiError 401 admin access only.
  */
 router.post('/',
-  token({ required: true, roles: ['admin'] }),
   body({
-    appId, notificationId,
+    notificationId,
     event: {
       type: String,
       required: true,
@@ -38,31 +32,23 @@ router.post('/',
  * @api {get} /analytics Retrieve analytics
  * @apiName RetrieveAnalytics
  * @apiGroup Analytic
- * @apiPermission user
- * @apiParam {String} access_token user access token.
  * @apiUse listParams
- * @apiSuccess {Object[]} analytics List of analytics.
+ * @apiSuccess {Object[]} analytics List of events analytics of the notifications.
  * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 user access only.
  */
 router.get('/',
-  token({ required: true }),
-  query({ appId: String }),
+  query(),
   index)
 
 /**
  * @api {get} /analytics/:id Retrieve analytic
  * @apiName RetrieveAnalytic
  * @apiGroup Analytic
- * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiSuccess {Object} analytic Analytic's data.
+ * @apiSuccess {Object} analytics List of events analytics of the notifications.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Analytic not found.
- * @apiError 401 user access only.
  */
 router.get('/:id',
-  token({ required: true }),
   show)
 
 export default router

@@ -1,12 +1,11 @@
 import { initOneSignalClient } from "./providers";
+import { pushnotifications as pn} from "../../config";
 
-const clientFactory = ({provider, keys}) => {
-  switch (provider) {
+export const getPushClient = () =>  {
+  switch (pn.provider) {
     case 'os':
-      return initOneSignalClient(keys);
+      return initOneSignalClient(pn.keys);
     default:
-      return initOneSignalClient(keys);
+      return initOneSignalClient(pn.keys);
   }
 }
-
-export default clientFactory;

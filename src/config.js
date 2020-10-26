@@ -37,11 +37,14 @@ const config = {
         useCreateIndex: true
       }
     },
-    oneSignal: {
-      authKey: requireProcessEnv('AUTH_KEY'),
-      restApiKey: requireProcessEnv('REST_API_KEY'),
-      appId: requireProcessEnv('APP_ID'),
-    }
+    pushnotifications: {
+      provider: 'os',
+      keys: {
+        authKey: requireProcessEnv('AUTH_KEY'),
+        restApiKey: requireProcessEnv('REST_API_KEY'),
+        appId: requireProcessEnv('APP_ID'),
+      }
+    },
   },
   test: { },
   development: {

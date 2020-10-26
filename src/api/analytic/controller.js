@@ -1,7 +1,7 @@
 import { notFound, success } from "../../services/response";
 import { Notification } from "../notification";
 
-export const create = ({ body: { notificationId, appId, event, userId } }, res, next) =>
+export const create = ({ body: { notificationId, event, userId } }, res, next) =>
   Notification.findById(notificationId)
     .then(notFound(res))
     .then(async () => {

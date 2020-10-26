@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-const messageSchema = new Schema({
+const langSchema = new Schema({
   en: {
     type: String,
     required: true,
@@ -9,6 +9,12 @@ const messageSchema = new Schema({
     type: String,
     required: true,
   }
+}, { _id: false })
+
+const messageSchema = new Schema({
+  heading: langSchema,
+  content: langSchema,
+  subtitle: langSchema,
 }, { _id: false })
 
 const analyticsSchema = new Schema({
@@ -25,11 +31,6 @@ const analyticsSchema = new Schema({
 const notificationSchema = new Schema({
   _id: {
     type: String,
-    required: true,
-  },
-  appId: {
-    type: Schema.Types.ObjectId,
-    ref: 'App',
     required: true,
   },
   message: [messageSchema],
@@ -55,7 +56,6 @@ notificationSchema.methods = {
     const view = {
       // simple view
       _id: this.id,
-      appId: this.appId,
       message: this.message,
       options: this.options,
       canceled: this.canceled,
