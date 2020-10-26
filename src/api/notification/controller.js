@@ -8,11 +8,10 @@ export const create = ({ bodymen: { body: { appId, message, options } } }, res, 
     .then(notFound(res))
     .then(async (app) => await invalidApp(res)(app))
     .then(async (client) => await client.sendNotification(message, options))
-    .then(({ status, error, body: res_notification }) => {
-      if(!error)
-        return res_notification
-      else
-        res.status(status).json(res_notification)
+    .then(({ status, error, body }) => {
+      if(error || body.errors)
+        res.status(status).json(body)
+      return body
     })
     .then(async (res_notification) => await Notification.create({
       _id: Notification.extractId(res_notification),
