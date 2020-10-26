@@ -4,6 +4,7 @@ import auth from './auth'
 import passwordReset from './password-reset'
 import app from './app'
 import notification from './notification'
+import analytic from './analytic'
 
 const router = new Router()
 
@@ -35,5 +36,6 @@ router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
 router.use('/apps', app)
 router.use('/notifications', notification)
+router.use('/analytics', analytic)
 
 export default router

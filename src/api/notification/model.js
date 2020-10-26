@@ -11,6 +11,17 @@ const messageSchema = new Schema({
   }
 }, { _id: false })
 
+const analyticsSchema = new Schema({
+  clicked: {
+    type: Array,
+    default: [],
+  },
+  received: {
+    type: Array,
+    default: [],
+  }
+}, { _id: false })
+
 const notificationSchema = new Schema({
   _id: String,
   appId: {
@@ -26,6 +37,7 @@ const notificationSchema = new Schema({
     type: Schema.Types.Mixed,
     required: true,
   },
+  analytics: analyticsSchema,
   canceled: Boolean
 }, {
   timestamps: true,
@@ -51,6 +63,7 @@ notificationSchema.methods = {
     return full ? {
       ...view,
       response: this.response,
+      analytics: this.analytics,
     } : view
   }
 }
