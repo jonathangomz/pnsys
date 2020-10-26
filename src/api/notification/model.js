@@ -23,7 +23,10 @@ const analyticsSchema = new Schema({
 }, { _id: false })
 
 const notificationSchema = new Schema({
-  _id: String,
+  _id: {
+    type: String,
+    required: true,
+  },
   appId: {
     type: Schema.Types.ObjectId,
     ref: 'App',
